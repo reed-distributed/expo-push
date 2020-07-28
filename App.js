@@ -9,9 +9,10 @@ import {
 } from 'react-native';
 import { Notifications } from 'expo';
 import * as Permissions from 'expo-permissions';
+import * as Device from 'expo-device';
 
-const PUSH_REGISTRATION_ENDPOINT = 'http://84b436c7.ngrok.io/token';
-const MESSAGE_ENPOINT = 'http://84b436c7.ngrok.io/message';
+const PUSH_REGISTRATION_ENDPOINT = 'http://d5745282d85b.ngrok.io/token';
+const MESSAGE_ENPOINT = 'http://d5745282d85b.ngrok.io/message';
 
 export default class App extends React.Component {
   state = {
@@ -28,7 +29,7 @@ export default class App extends React.Component {
       return;
     }
     let token = await Notifications.getExpoPushTokenAsync();
-    
+
     return fetch(PUSH_REGISTRATION_ENDPOINT, {
       method: 'POST',
       headers: {
@@ -46,7 +47,7 @@ export default class App extends React.Component {
       }),
     });
     this.notificationSubscription = Notifications.addListener(this.handleNotification);
-    
+
 
   }
   handleNotification = (notification) => {
@@ -81,6 +82,7 @@ export default class App extends React.Component {
           onPress={this.sendMessage}
         >
           <Text style={styles.buttonText}>Send</Text>
+          <Text>{Device.modelName}</Text>
         </TouchableOpacity>
         {this.state.notification ?
           this.renderNotification()
